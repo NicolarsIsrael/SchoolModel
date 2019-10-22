@@ -8,7 +8,7 @@ namespace SchoolModel.Data.Implementations
 {
     public class StudentDao : CoreDao<Student>,IStudentDao
     {
-        public StudentDao(AppDbContext ctx): base(ctx)
+        public StudentDao(SchoolContextData ctx): base(ctx)
         {
 
         }

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using SchoolModel.Data.Contracts;
-
+using SchoolModel;
 namespace SchoolModel.Data.Implementations
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
-        private readonly AppDbContext ctx ;
-        public UnitOfWork(AppDbContext context)
+        private readonly SchoolContextData ctx ;
+        public UnitOfWork(SchoolContextData context)
         {
             ctx = context;
         }

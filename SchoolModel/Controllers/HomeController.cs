@@ -5,11 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SchoolModel.Models;
-//using SchoolModel.Data.Contracts;
-//using SchoolModel.Services.Contracts;
-//using SchoolModel.Data.Implementations;
-//using SchoolModel.Services.Implementations;
+using SchoolModel.Data.Contracts;
+using SchoolModel.Services.Contracts;
+using SchoolModel.Data.Implementations;
+using SchoolModel.Services.Implementations;
 using SchoolModel.Data;
+//using SchoolModel.Areas.Identity.Data;
 
 namespace SchoolModel.Controllers
 {
@@ -17,8 +18,8 @@ namespace SchoolModel.Controllers
     {
         //IUnitOfWork uow;
         //IStudentService studentService;
-        private readonly AppDbContext context;
-        public HomeController(/*IUnitOfWork _uow, IStudentService _studentService, */AppDbContext _ctx)
+        private readonly SchoolContextData context;
+        public HomeController(/*IUnitOfWork _uow, IStudentService _studentService, */SchoolContextData _ctx)
         {
             //uow = _uow;
             //studentService = _studentService;
@@ -27,7 +28,9 @@ namespace SchoolModel.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.NumberOfStudents=context.Student.Count();
+            UnitOfWork uow = new UnitOfWork(context);
+            StudentService studentService = new StudentService(uow);
+            ViewBag.NumberOfStudents = studentService.GetAllStudent().Count();
             return View();
         }
 

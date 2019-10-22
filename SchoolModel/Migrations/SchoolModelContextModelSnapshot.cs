@@ -5,10 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolModel.Areas.Identity.Data;
+using SchoolModel.Data;
 
 namespace SchoolModel.Migrations
 {
-    [DbContext(typeof(SchoolContext))]
+    [DbContext(typeof(SchoolContextData))]
     partial class SchoolModelContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

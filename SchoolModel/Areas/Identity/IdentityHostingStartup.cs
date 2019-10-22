@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SchoolModel.Areas.Identity.Data;
+//using SchoolModel.Areas.Identity.Data;
+using SchoolModel.Data;
 
 [assembly: HostingStartup(typeof(SchoolModel.Areas.Identity.IdentityHostingStartup))]
 namespace SchoolModel.Areas.Identity
@@ -18,7 +19,7 @@ namespace SchoolModel.Areas.Identity
                
 
                 services.AddDefaultIdentity<IdentityUser>()
-                    .AddEntityFrameworkStores<SchoolContext>();
+                    .AddEntityFrameworkStores<SchoolContextData>();
             });
         }
     }

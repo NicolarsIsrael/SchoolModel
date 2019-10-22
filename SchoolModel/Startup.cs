@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SchoolModel.Data;
 using Microsoft.EntityFrameworkCore;
-using SchoolModel.Areas.Identity.Data;
+//using SchoolModel.Areas.Identity.Data;
 //using SchoolModel.Services.Contracts;
 //using SchoolModel.Services.Implementations;
 //using SchoolModel.Data.Implementations;
@@ -43,7 +43,7 @@ namespace SchoolModel
             services.AddDbContext<AppDbContext>(options=>
             options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
 
-            services.AddDbContext<SchoolContext>(options =>
+            services.AddDbContext<SchoolContextData>(options =>
            options.UseSqlServer(Configuration.GetConnectionString("SchoolModelContextConnection")));
 
             //services.AddDbContext<SchoolContext>(options =>

@@ -5,16 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using SchoolModel.Areas.Identity.Data;
+//using SchoolModel.Areas.Identity.Data;
 using SchoolModel.Core;
+using SchoolModel.Data;
 
 namespace SchoolModel.Controllers
 {
     public class StudentsController : Controller
     {
-        private readonly SchoolContext _context;
+        private readonly SchoolContextData _context;
 
-        public StudentsController(SchoolContext context)
+        public StudentsController(SchoolContextData context)
         {
             _context = context;
         }
