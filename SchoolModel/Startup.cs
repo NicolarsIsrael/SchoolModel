@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SchoolModel.Data;
 using Microsoft.EntityFrameworkCore;
+using SchoolModel.Core;
+using Microsoft.AspNetCore.Identity;
 //using SchoolModel.Areas.Identity.Data;
 //using SchoolModel.Services.Contracts;
 //using SchoolModel.Services.Implementations;
@@ -45,6 +47,14 @@ namespace SchoolModel
 
             services.AddDbContext<SchoolContextData>(options =>
            options.UseSqlServer(Configuration.GetConnectionString("SchoolModelContextConnection")));
+
+            services.AddScoped<SignInManager<ApplicationUser>, SignInManager<ApplicationUser>>();
+
+            //services.AddIdentity<ApplicationUser, ApplicationRole>(
+            //    options => options.Stores.MaxLengthForKeys = 128)
+            //    .AddEntityFrameworkStores<SchoolContextData>()
+            //    .AddDefaultUI()
+            //    .AddDefaultTokenProviders();
 
             //services.AddDbContext<SchoolContext>(options =>
             //       options.UseSqlServer(

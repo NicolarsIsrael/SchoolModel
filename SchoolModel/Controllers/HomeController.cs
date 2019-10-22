@@ -10,10 +10,12 @@ using SchoolModel.Services.Contracts;
 using SchoolModel.Data.Implementations;
 using SchoolModel.Services.Implementations;
 using SchoolModel.Data;
+using Microsoft.AspNetCore.Authorization;
 //using SchoolModel.Areas.Identity.Data;
 
 namespace SchoolModel.Controllers
 {
+    //[Authorize(Roles ="User")]
     public class HomeController : Controller
     {
         //IUnitOfWork uow;

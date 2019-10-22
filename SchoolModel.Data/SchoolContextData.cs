@@ -9,7 +9,7 @@ using SchoolModel.Core;
 
 namespace SchoolModel.Data
 {
-    public class SchoolContextData : IdentityDbContext<IdentityUser>
+    public class SchoolContextData : IdentityDbContext<ApplicationUser/*,ApplicationRole,string*/>
     {
         public SchoolContextData(DbContextOptions<SchoolContextData> options)
             : base(options)
