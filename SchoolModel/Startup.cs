@@ -11,10 +11,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SchoolModel.Data;
 using Microsoft.EntityFrameworkCore;
-using SchoolModel.Services.Contracts;
-using SchoolModel.Services.Implementations;
-using SchoolModel.Data.Implementations;
-using SchoolModel.Data.Contracts;
+using SchoolModel.Areas.Identity.Data;
+//using SchoolModel.Services.Contracts;
+//using SchoolModel.Services.Implementations;
+//using SchoolModel.Data.Implementations;
+//using SchoolModel.Data.Contracts;
 
 namespace SchoolModel
 {
@@ -42,9 +43,21 @@ namespace SchoolModel
             services.AddDbContext<AppDbContext>(options=>
             options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
 
-            services.AddScoped<IStudentDao, StudentDao>();
-            services.AddScoped<IStudentService, StudentService>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddDbContext<SchoolContext>(options =>
+           options.UseSqlServer(Configuration.GetConnectionString("SchoolModelContextConnection")));
+
+            //services.AddDbContext<SchoolContext>(options =>
+            //       options.UseSqlServer(
+            //           context.Configuration.GetConnectionString("SchoolModelContextConnection")));
+
+
+            services.AddMvc()
+                    .AddControllersAsServices();
+
+            
+            //services.AddScoped<IUnitOfWork, UnitOfWork>();
+            //services.AddScoped<IStudentDao, StudentDao>();
+            //services.AddScoped<IStudentService, StudentService>();
             //services.AddScoped<ICoreDao, CoreDao>();
         }
 
@@ -65,7 +78,7 @@ namespace SchoolModel
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseAuthentication();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

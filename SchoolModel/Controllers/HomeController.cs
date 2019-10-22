@@ -5,10 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SchoolModel.Models;
-using SchoolModel.Data.Contracts;
-using SchoolModel.Services.Contracts;
-using SchoolModel.Data.Implementations;
-using SchoolModel.Services.Implementations;
+//using SchoolModel.Data.Contracts;
+//using SchoolModel.Services.Contracts;
+//using SchoolModel.Data.Implementations;
+//using SchoolModel.Services.Implementations;
 using SchoolModel.Data;
 
 namespace SchoolModel.Controllers
@@ -17,8 +17,8 @@ namespace SchoolModel.Controllers
     {
         //IUnitOfWork uow;
         //IStudentService studentService;
-        AppDbContext context;
-        public HomeController(/*IUnitOfWork _uow,IStudentService _studentService, */AppDbContext _ctx)
+        private readonly AppDbContext context;
+        public HomeController(/*IUnitOfWork _uow, IStudentService _studentService, */AppDbContext _ctx)
         {
             //uow = _uow;
             //studentService = _studentService;

@@ -5,6 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Contracts\**" />
+    <Compile Remove="Implementations\**" />
+    <Compile Remove="Migrations\**" />
+    <EmbeddedResource Remove="Contracts\**" />
+    <EmbeddedResource Remove="Implementations\**" />
+    <EmbeddedResource Remove="Migrations\**" />
+    <None Remove="Contracts\**" />
+    <None Remove="Implementations\**" />
+    <None Remove="Migrations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SchoolModel.Core\SchoolModel.Core.csproj" />
   </ItemGroup>
 
