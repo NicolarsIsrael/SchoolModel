@@ -42,19 +42,20 @@ namespace SchoolModel
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddDbContext<AppDbContext>(options=>
-            options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
+            //services.AddDbContext<AppDbContext>(options=>
+            //options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
 
             services.AddDbContext<SchoolContextData>(options =>
            options.UseSqlServer(Configuration.GetConnectionString("SchoolModelContextConnection")));
 
             services.AddScoped<SignInManager<ApplicationUser>, SignInManager<ApplicationUser>>();
+            services.AddScoped<UserManager<ApplicationUser>, UserManager<ApplicationUser>>();
 
-            //services.AddIdentity<ApplicationUser, ApplicationRole>(
-            //    options => options.Stores.MaxLengthForKeys = 128)
-            //    .AddEntityFrameworkStores<SchoolContextData>()
-            //    .AddDefaultUI()
-            //    .AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationUser, ApplicationRole>(
+                options => options.Stores.MaxLengthForKeys = 128)
+                .AddEntityFrameworkStores<SchoolContextData>()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders();
 
             //services.AddDbContext<SchoolContext>(options =>
             //       options.UseSqlServer(

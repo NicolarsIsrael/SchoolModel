@@ -16,19 +16,22 @@ namespace SchoolModel.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            RoleManager<ApplicationRole> roleManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _logger = logger;
             _emailSender = emailSender;
         }
@@ -70,11 +73,15 @@ namespace SchoolModel.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email,Age=Input.Age,FullName=Input.FullName };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    if (await _roleManager.FindByNameAsync("User") == null)
+                        await _roleManager.CreateAsync(new ApplicationRole("User"));
+
                     await _userManager.AddToRoleAsync(user, "User");
+
 
                     _logger.LogInformation("User created a new account with password.");
 

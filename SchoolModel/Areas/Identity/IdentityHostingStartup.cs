@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SchoolModel.Core;
 //using SchoolModel.Areas.Identity.Data;
 using SchoolModel.Data;
 
@@ -18,8 +19,8 @@ namespace SchoolModel.Areas.Identity
             builder.ConfigureServices((context, services) => {
                
 
-                services.AddDefaultIdentity<IdentityUser>()
-                    .AddEntityFrameworkStores<SchoolContextData>();
+                //services.AddDefaultIdentity<ApplicationUser>()
+                //    .AddEntityFrameworkStores<SchoolContextData>();
             });
         }
     }
