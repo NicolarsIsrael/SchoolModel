@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolModel.Data;
 
-namespace SchoolModel.Data.Migrations.SchoolContextDataMigrations
+namespace SchoolModel.Data.Migrations
 {
     [DbContext(typeof(SchoolContextData))]
-    [Migration("20191022141450_N_ApplicationUserAdded")]
-    partial class N_ApplicationUserAdded
+    [Migration("20191112144219_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -190,6 +190,53 @@ namespace SchoolModel.Data.Migrations.SchoolContextDataMigrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("SchoolModel.Core.Attendance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ClassroomId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassroomId");
+
+                    b.ToTable("Attendance");
+                });
+
+            modelBuilder.Entity("SchoolModel.Core.Classroom", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClassName");
+
+                    b.Property<string>("TutorName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Classroom");
+                });
+
+            modelBuilder.Entity("SchoolModel.Core.Parent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Fullname")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Parent");
+                });
+
             modelBuilder.Entity("SchoolModel.Core.Student", b =>
                 {
                     b.Property<long>("Id")
@@ -198,15 +245,33 @@ namespace SchoolModel.Data.Migrations.SchoolContextDataMigrations
 
                     b.Property<int>("Age");
 
-                    b.Property<string>("Email");
+                    b.Property<int?>("AttendanceId");
 
-                    b.Property<string>("FirstName");
+                    b.Property<int?>("ClassId");
 
-                    b.Property<string>("LastName");
+                    b.Property<string>("Email")
+                        .IsRequired();
 
-                    b.Property<string>("MatricNumber");
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(25);
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(25);
+
+                    b.Property<string>("MatricNumber")
+                        .IsRequired();
+
+                    b.Property<int?>("ParentId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AttendanceId");
+
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Student");
                 });
@@ -254,6 +319,28 @@ namespace SchoolModel.Data.Migrations.SchoolContextDataMigrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SchoolModel.Core.Attendance", b =>
+                {
+                    b.HasOne("SchoolModel.Core.Classroom", "Classroom")
+                        .WithMany("Attendances")
+                        .HasForeignKey("ClassroomId");
+                });
+
+            modelBuilder.Entity("SchoolModel.Core.Student", b =>
+                {
+                    b.HasOne("SchoolModel.Core.Attendance")
+                        .WithMany("Students")
+                        .HasForeignKey("AttendanceId");
+
+                    b.HasOne("SchoolModel.Core.Classroom", "Class")
+                        .WithMany("Students")
+                        .HasForeignKey("ClassId");
+
+                    b.HasOne("SchoolModel.Core.Parent", "Parent")
+                        .WithMany("Students")
+                        .HasForeignKey("ParentId");
                 });
 #pragma warning restore 612, 618
         }

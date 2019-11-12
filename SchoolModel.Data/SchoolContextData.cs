@@ -25,5 +25,8 @@ namespace SchoolModel.Data
         }
 
         public DbSet<Student> Student { get; set; }
+        public DbSet<Parent> Parent { get; set; }
+        public DbSet<Classroom> Classroom { get; set; }
+        public DbSet<Attendance> Attendance { get; set; }
     }
 }

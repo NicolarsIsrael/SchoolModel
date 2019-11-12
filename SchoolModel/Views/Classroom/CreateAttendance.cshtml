@@ -1,0 +1,64 @@
+﻿@model SchoolModel.Models.AddAttendanceViewModel
+
+@{
+    ViewData["Title"] = "CreateAttendance";
+    Layout = "~/Views/Shared/_LayoutWithoutJquery.cshtml";
+}
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+
+<h1>Create Attendance</h1>
+
+<h4>Attendance</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateAttendance">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">@ViewBag.ClassroomName</label>
+                <input hidden asp-for="Classroom" value="@ViewBag.ClassroomName" />
+            </div>
+            <div class="form-group">
+                <label asp-for="PresetStudentMatricNumber" class="control-label"></label>
+
+                <select class="js-example-basic-multiple" name="studentList" multiple="multiple">
+                    @{
+                        foreach (var item in ViewBag.Students)
+                        {
+                            <option value="@item">@item</option>
+                        }
+
+                    }
+                </select>
+
+                <span asp-validation-for="PresetStudentMatricNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AttendanceDate" class="control-label"></label>
+                <input asp-for="AttendanceDate" class="form-control" />
+                <span asp-validation-for="AttendanceDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    $(document).ready(function() {
+    $('.js-example-basic-multiple').select2();
+});
+</script>

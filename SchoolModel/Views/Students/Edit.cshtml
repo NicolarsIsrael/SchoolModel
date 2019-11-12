@@ -1,4 +1,4 @@
-﻿@model SchoolModel.Core.Student
+﻿@model SchoolModel.Models.EditStudentViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -38,6 +38,28 @@
                 <label asp-for="Age" class="control-label"></label>
                 <input asp-for="Age" class="form-control" />
                 <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Parent" class="control-label"></label>
+                <select asp-for="Parent" class="form-control">
+                    <option value="@ViewBag.SelectedParent">@ViewBag.SelectedParent</option>
+                    @foreach (var item in ViewBag.Parents)
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </select>
+                <span asp-validation-for="Parent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Class" class="control-label"></label>
+                <select asp-for="Class" class="form-control">
+                    <option value="@ViewBag.SelectedClass">@ViewBag.SelectedClass</option>
+                    @foreach (var item in ViewBag.Classes)
+                    {
+                        <option value="@item">@item</option>
+                    }
+                </select>
+                <span asp-validation-for="Class" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

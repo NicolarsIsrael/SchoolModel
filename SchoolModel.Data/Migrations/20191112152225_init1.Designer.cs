@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolModel.Data;
 
-namespace SchoolModel.Data.Migrations.SchoolContextDataMigrations
+namespace SchoolModel.Data.Migrations
 {
     [DbContext(typeof(SchoolContextData))]
-    [Migration("20191022151616_NewMigration1")]
-    partial class NewMigration1
+    [Migration("20191112152225_init1")]
+    partial class init1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,30 +20,6 @@ namespace SchoolModel.Data.Migrations.SchoolContextDataMigrations
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256);
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
@@ -135,6 +111,30 @@ namespace SchoolModel.Data.Migrations.SchoolContextDataMigrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("SchoolModel.Core.ApplicationRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
+                });
+
             modelBuilder.Entity("SchoolModel.Core.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -190,6 +190,57 @@ namespace SchoolModel.Data.Migrations.SchoolContextDataMigrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("SchoolModel.Core.Attendance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("AttendanceDate");
+
+                    b.Property<int>("ClassroomId");
+
+                    b.Property<string>("PresetStudentMatricNumber");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassroomId");
+
+                    b.ToTable("Attendance");
+                });
+
+            modelBuilder.Entity("SchoolModel.Core.Classroom", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClassName");
+
+                    b.Property<string>("TutorName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Classroom");
+                });
+
+            modelBuilder.Entity("SchoolModel.Core.Parent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Fullname")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Parent");
+                });
+
             modelBuilder.Entity("SchoolModel.Core.Student", b =>
                 {
                     b.Property<long>("Id")
@@ -198,22 +249,36 @@ namespace SchoolModel.Data.Migrations.SchoolContextDataMigrations
 
                     b.Property<int>("Age");
 
-                    b.Property<string>("Email");
+                    b.Property<int?>("ClassId");
 
-                    b.Property<string>("FirstName");
+                    b.Property<string>("Email")
+                        .IsRequired();
 
-                    b.Property<string>("LastName");
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(25);
 
-                    b.Property<string>("MatricNumber");
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(25);
+
+                    b.Property<string>("MatricNumber")
+                        .IsRequired();
+
+                    b.Property<int?>("ParentId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Student");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("SchoolModel.Core.ApplicationRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -237,7 +302,7 @@ namespace SchoolModel.Data.Migrations.SchoolContextDataMigrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("SchoolModel.Core.ApplicationRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -254,6 +319,25 @@ namespace SchoolModel.Data.Migrations.SchoolContextDataMigrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SchoolModel.Core.Attendance", b =>
+                {
+                    b.HasOne("SchoolModel.Core.Classroom", "Classroom")
+                        .WithMany("Attendances")
+                        .HasForeignKey("ClassroomId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SchoolModel.Core.Student", b =>
+                {
+                    b.HasOne("SchoolModel.Core.Classroom", "Class")
+                        .WithMany("Students")
+                        .HasForeignKey("ClassId");
+
+                    b.HasOne("SchoolModel.Core.Parent", "Parent")
+                        .WithMany("Students")
+                        .HasForeignKey("ParentId");
                 });
 #pragma warning restore 612, 618
         }
